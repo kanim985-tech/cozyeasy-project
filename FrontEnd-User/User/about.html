@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <!-- font awesome icon -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        *{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: "Georgia", serif;
+}
+.heading{
+    color: #6d4a08;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+body{
+background:#f6f3f1;
+/* padding:60px; */
+color:#1c1c1c;
+}
+.container{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:60px;
+/* max-width:1200px; */
+/* margin:auto; */
+}
+/* left */
+.content{
+flex:1;
+}
+.tag{
+color:#c45b3c;
+font-size:12px;
+letter-spacing:2px;
+margin-bottom:10px;
+}
+h1{
+font-size:48px;
+line-height:1.2;
+margin-bottom:20px;
+}
+.description{
+color:#751f1f;
+line-height:1.8;
+max-width:500px;
+margin-bottom:40px;
+}
+.stats{
+display:flex;
+gap:60px;
+}
+.stats h2{
+color:#d04c2f;
+font-size:28px;
+margin-bottom:5px;
+}
+.stats span{
+font-size:12px;
+color:#777;
+letter-spacing:1px;
+}
+
+/* right */
+.image-grid{
+flex:1;
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:20px;
+}
+.card{
+background:#79181986;
+border-radius:14px;
+padding:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
+.card img{
+width:150px;
+height:150;
+}
+
+.yellow{
+background:#8f676786;
+}
+/* how it works */
+.features{
+display:flex;
+justify-content:space-around;
+align-items:center;
+padding:60px 70px;
+text-align:center;
+}
+.feature-box{
+max-width:280px;
+background-color: rgb(189, 213, 213);
+padding: 50px;
+box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+.feature-box:hover{
+    cursor: pointer;
+    transform:translateY(-3px);
+}
+.icon-box{
+width:70px;
+height:70px;
+background:#f5d7dc;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0 auto 20px auto;
+font-size:30px;
+color:#b93385;
+}
+h3{
+font-size:18px;
+margin-bottom:10px;
+color:#222;
+}
+
+p{
+font-size:14px;
+color:#be2a2a;
+line-height:1.6;
+}
+
+
+/* -------------------commitment--------------------- */
+.quality-section{
+padding:0px 90px;
+text-align:center;
+}
+.container-box{
+/* max-width:1200px; */
+margin:auto;
+}
+.comit{
+font-size:36px;
+margin-bottom:10px;
+/* color:#222; */
+    color: #7b1313f0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.subtitle-box{
+color:#6e6e6e;
+max-width:600px;
+margin:0 auto 60px auto;
+line-height:1.6;
+}
+/* .cards-box{
+display:flex;
+gap:30px;
+justify-content:center;
+} */
+
+.card-box{
+background:#b5d4b3;
+padding:40px 30px;
+border-radius:20px;
+/* max-width:330px; */
+
+margin-bottom: 20px;
+}
+.icon{
+width:60px;
+height:60px;box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px, rgba(240, 46, 170, 0.1) 15px 15px, rgba(240, 46, 170, 0.05) 15px 15px;
+margin:auto;
+padding: 30px;
+margin-bottom:30px;
+border-radius:50%;
+background:#fde4df;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#0a7219ad;
+font-size:30px;
+}
+.card-box h3{
+margin-bottom:15px;
+font-size:25px;
+color:#222;
+}
+
+.card-box p{
+color:#119f4a;
+line-height:1.6;
+font-size:15px;
+}
+
+/* ---------------------------footer------------------------------ */
+
+.footer{
+    margin-top: 100px;
+background:#98857d;
+padding:60px 8%;
+}
+.footer-container{
+display:grid;
+grid-template-columns:2fr 1fr 1fr 2fr;
+gap:50px;
+}
+.footer-col h3{
+color:#c8a25d;
+margin-bottom:20px;
+}
+.footer-col ul{
+list-style:none;
+padding:0;
+}
+.footer-col ul li{
+margin-bottom:10px;
+}
+
+.footer-col ul li a{
+text-decoration:none;
+color:#ddd;
+font-size:14px;
+}
+.footer-col ul li a:hover{
+color:#c8a25d;
+}
+.logo{
+border:1px solid #b9cd3b;
+display:inline-block;
+padding:10px 18px;
+color:#3a1f17;
+}
+.brand p{
+margin-top:15px;
+font-size:14px;
+line-height:1.6;
+color:#ccc;
+}
+.subscribe-box{
+display: flex;
+margin-top:15px;
+}
+
+.subscribe-box input{
+flex:1;
+padding:12px;
+background:transparent;
+border:1px solid #5a4630;
+color:#fff;
+outline:none;
+}
+.subscribe-box button{
+background:#c8a25d;
+border:none;
+padding:12px 20px;
+font-weight:bold;
+cursor:pointer;
+}
+.subscribe-box button:hover{
+background:#b8914d;
+}
+
+.footer-bottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:25px;
+/* flex-wrap:wrap; */
+}
+.socials i{
+margin-right:15px;
+font-size:18px;
+cursor:pointer;
+}
+hr{
+border-color:#3a2a1c;
+margin-top:40px;
+}
+    </style>
+    <script src="script.js"></script>
+</head>
+
+
+<body>
+     <div id="header" style="width: auto;"></div>
+     <div style="padding: 30px;">
+     <h1 class="heading">Our Story</h1>
+    <section class="container">
+       
+    <!-- LEFT -->
+    <div class="content">
+        <p class="tag">A LEGACY OF ELEGANCE</p>
+
+        <h1>A Journey of Passion<br>and Perfection</h1>
+
+        <p class="description">
+            Founded in a small kitchen with a singular vision, JoyCraft began with the belief
+            that a gift is more than just an object—it's a memory in the making. Our founders
+            spent years traveling the world to source the finest cocoa, the rarest blooms,
+            and the most delicate techniques.
+            <br><br>
+            Today, we honor that heritage by ensuring every cake is baked with soul,
+            every chocolate is tempered to perfection, and every bouquet tells a story
+            of affection.
+        </p>
+
+        <div class="stats">
+            <div>
+                <h2>15+</h2>
+                <span>YEARS OF CRAFT</span>
+            </div>
+
+            <div>
+                <h2>200K+</h2>
+                <span>GIFTS DELIVERED</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- RIGHT IMAGE GRID -->
+    <div class="image-grid">
+
+        <div class="card yellow">
+            <img src="https://i.pinimg.com/736x/c0/50/b8/c050b8ec33539e36a3b474b8052b3948.jpg" alt="chef">
+        </div>
+
+        <div class="card">
+            <img src="https://i.pinimg.com/736x/a7/e0/f0/a7e0f070942278187c638f00e74e042f.jpg" alt="plant">
+        </div>
+
+        <div class="card">
+            <img src="https://i.pinimg.com/736x/c1/a2/64/c1a2647ceb1ede8d931cfb343af2e58a.jpg" alt="chocolate">
+        </div>
+
+        <div class="card">
+            <img src="https://i.pinimg.com/1200x/96/e6/cc/96e6ccef753cc553bdefabce39957bc8.jpg" alt="frame">
+        </div>
+
+    </div>
+
+</section>
+
+<!------------------------------------------------------ how it works ------------------------------------------------------->
+<br>
+<br>
+<h1 class="heading">How it Works ?</h1>
+
+<section class="features">
+
+    <div class="feature-box">
+
+        <div class="icon-box">
+            <i class="fa-solid fa-truck"></i>
+        </div>
+
+        <h3>Same Day Delivery</h3>
+
+        <p>
+        Order by 1PM for guaranteed same-day delivery
+        within the metropolitan area.
+        </p>
+
+        </div>
+
+
+        <div class="feature-box">
+
+            <div class="icon-box">
+            <i class="fa-solid fa-heart"></i>
+            </div>
+
+            <h3>Handcrafted with Love</h3>
+
+            <p>
+            Our artisans pour heart and soul into every
+            bouquet and box of chocolates.
+            </p>
+
+        </div>
+
+
+        <div class="feature-box">
+
+            <div class="icon-box">
+            <i class="fa-solid fa-certificate"></i>
+            </div>
+
+            <h3>Premium Quality Service</h3>
+
+            <p>
+            Only the finest ingredients and freshest flowers
+            make it into a Bloom & Bliss gift.
+            </p>
+
+        </div>
+
+</section>
+
+<!------------------------------------------------------ commitement------------------------------------------------------------>
+
+<section class="quality-section">
+
+<div class="container-box">
+
+<h2 class="comit">Our Commitment to Quality</h2>
+
+<p class="subtitle-box">
+We believe perfection lies in the details. From the first sprout to the final ribbon,
+quality is our north star.
+</p>
+
+<div class="cards-box">
+
+<div class="card-box">
+
+<div class="icon">
+<i class="fa-solid fa-leaf"></i>
+</div>
+
+<h3>Sourced Sustainably</h3>
+
+<p>
+We partner with ethical farmers who respect the earth as much as we do,
+ensuring the finest organic ingredients.
+</p>
+
+</div>
+
+
+<div class="card-box">
+
+<div class="icon">
+<i class="fa-solid fa-heart"></i>
+</div>
+
+<h3>Handcrafted with Love</h3>
+
+<p>
+No machines can replace the touch of a human hand.
+Each gift is individually inspected and styled.
+</p>
+
+</div>
+
+
+<div class="card-box">
+
+<div class="icon">
+<i class="fa-solid fa-clock"></i>
+</div>
+
+<h3>Guaranteed Freshness</h3>
+
+<p>
+Our logistics are timed to the minute.
+Fresh blooms and most cakes arrive exactly as intended.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+</div>
+
+<!---------------------------------------- footer ------------------------------------------->
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col brand">
+            <h2 class="logo">CoZy <span>EaSy</span></h2>
+            <p>
+                Crafting moments of pure indulgence since 2000. From artisanal chocolates to hand-tied bouquets and bespoke cakes, we bring elegance to every celebration.
+            </p>
+        </div>
+        <div class="footer-col">
+            <h3>Discovery</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Category</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Occasions</h3>
+                <ul>
+                    <li><a href="#">Birthday</a></li>
+                    <li><a href="#">Anniversary</a></li>
+                    <li><a href="#">special occations</a></li>
+                </ul>
+        </div>
+        <div class="footer-col subscribe">
+            <h3>Join Our Sweet List</h3>
+            <p>Be the first to hear about seasonal collections and private events.</p>
+
+            <div class="subscribe-box">
+                <input type="email" id="email" placeholder="Your email address">
+                <button>Subscribe</button>
+            </div>
+        </div>  
+</div>
+<hr>
+<div class="footer-bottom">
+
+<div class="socials">
+    <i class="fab fa-instagram"></i>
+    <i class="fab fa-pinterest"></i>
+    <i class="fab fa-facebook"></i>
+</div>
+<p>© 2024 LUXE GIFTS ARTISAN COLLECTIONS. ALL RIGHTS RESERVED.</p>
+</div>
+
+</footer>
+</body>
+</html>

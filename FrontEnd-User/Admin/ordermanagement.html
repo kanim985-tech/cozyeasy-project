@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orders Management</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  /* padding: 20px; */
+}
+.main{
+      display: flex;
+      gap: 20px;
+}
+/* Sidebar */
+    .sidebar {
+      width: 180px;
+      background: #333;
+      color: white;
+      height: 100vh;
+      padding: 10px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      padding:  10px 0;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .sidebar li:hover {
+      background: #555;
+    }
+    /*  */
+    .sidebar a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  /* padding: 10px; */
+  border-radius: 6px;
+}
+
+.sidebar a:hover {
+  background: #555;
+}
+
+    /* main */
+
+.container {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #2c2c3e;
+  color: #fff;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.order {
+  color: #4a6cf7;
+  cursor: pointer;
+}
+
+/* Status Styles */
+.status {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.processing {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.delivered {
+  background: #d4edda;
+  color: #155724;
+}
+
+.cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+select {
+  padding: 5px;
+  border-radius: 5px;
+}
+</style>
+
+</head>
+<body>
+<div class="main">
+<!-- Sidebar -->
+  <div class="sidebar">
+    <h2>CozyEasy</h2>
+    <ul>
+  <li><a href="Dashboard.html">Dashboard</a></li>
+  <li><a href="productmanagement.html">Product</a></li>
+  <li><a href="ordermanagement.html">Order</a></li>
+  <!-- <li><a href="offermanagement.html">Offer Management</a></li> -->
+  <li><a href="contactmanagement.html">Contact</a></li>
+  <li><a href="customerreview.html">User</a></li>
+</ul>
+  </div>
+
+  <!-- main -->
+<div class="container">
+  <h2>Orders Management</h2>
+
+  <!-- Search -->
+  <input type="text" id="searchInput" placeholder="Search by Order Number..." />
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Order No</th>
+        <th>User ID</th>
+        <th>Customer</th>
+        <th>Amount</th>
+        <th>Payment</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody id="orderTable">
+
+      <tr>
+        <td>21/03/2026</td>
+        <td class="order">#ORD-D2CD46</td>
+        <td>USR-E96F93DE</td>
+        <td>Kavin</td>
+        <td>₹7140.14</td>
+        <td>Cash on Delivery</td>
+        <td><span class="status pending">Pending</span></td>
+        <td>
+          <select onchange="updateStatus(this)">
+            <option>Update</option>
+            <option>Pending</option>
+            <option>Processing</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td>21/03/2026</td>
+        <td class="order">#ORD-D86E2D</td>
+        <td>USR-E96F93DE</td>
+        <td>Kavin</td>
+        <td>₹7929.21</td>
+        <td>Cash on Delivery</td>
+        <td><span class="status pending">Pending</span></td>
+        <td>
+          <select onchange="updateStatus(this)">
+            <option>Update</option>
+            <option>Pending</option>
+            <option>Processing</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td>21/03/2026</td>
+        <td class="order">#ORD-782C69</td>
+        <td>USR-950AC3F2</td>
+        <td>Devika</td>
+        <td>₹5934.27</td>
+        <td>Cash on Delivery</td>
+        <td><span class="status pending">Pending</span></td>
+        <td>
+          <select onchange="updateStatus(this)">
+            <option>Update</option>
+            <option>Pending</option>
+            <option>Processing</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+          </select>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+</div>
+<!-- ORDER DETAILS MODAL -->
+<div id="orderModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  
+  <div style="background:white; padding:20px; width:400px; border-radius:10px;">
+    
+    <h3>Order Details</h3>
+
+    <div id="orderItemsContainer"></div>
+
+    <br>
+    <button onclick="closeModal()" style="padding:10px; width:100%; background:#333; color:white; border:none;">
+      Close
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("./admin-sidebar.html");
+
+    if (!res.ok) {
+      throw new Error("File not found");
+    }
+
+    const html = await res.text();
+    document.getElementById("sidebar").innerHTML = html;
+
+  } catch (err) {
+    console.error("Sidebar error:", err);
+    document.getElementById("sidebar").innerHTML =
+      "<div style='color:red'>Sidebar failed to load</div>";
+  }
+});
+</script>
+<script>
+
+const API = "http://localhost:8000/api/orders";
+
+// ---------------- LOAD ORDERS ----------------
+async function loadOrders() {
+  let res = await fetch(API + "/admin");
+  let orders = await res.json();
+
+  let table = document.getElementById("orderTable");
+  table.innerHTML = "";
+
+  orders.forEach(order => {
+    table.innerHTML += `
+      <tr>
+        <td>${order.created_at}</td>
+        <td class="order" onclick="viewItems(${order.id})">${order.order_number}</td>
+        <td>${order.user_id}</td>
+        <td>${order.customer_name}</td>
+        <td>₹${order.total_amount}</td>
+        <td>${order.payment_method}</td>
+        <td>
+          <span class="status ${order.status.toLowerCase()}">
+            ${order.status}
+          </span>
+        </td>
+        <td>
+          <select onchange="updateStatus(this, ${order.id})">
+            <option>Update</option>
+            <option>Pending</option>
+            <option>Processing</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+          </select>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+
+// ---------------- UPDATE STATUS ----------------
+async function updateStatus(select, id) {
+
+  let status = select.value;
+
+  await fetch(`${API}/status/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ status })
+  });
+
+  alert("Status updated!");
+  loadOrders();
+}
+
+
+// ---------------- VIEW ORDER ITEMS ----------------
+async function viewItems(orderId) {
+
+  let res = await fetch(`${API}/${orderId}/items`);
+  let items = await res.json();
+
+  let container = document.getElementById("orderItemsContainer");
+  container.innerHTML = "";
+
+  items.forEach(i => {
+    container.innerHTML += `
+      <div style="border-bottom:1px solid #eee; padding:8px 0;">
+        <strong>${i.name}</strong><br>
+        Qty: ${i.quantity} <br>
+        Price: ₹${i.price} <br>
+        <b>Subtotal: ₹${i.subtotal}</b>
+      </div>
+    `;
+  });
+
+  document.getElementById("orderModal").style.display = "flex";
+}
+function closeModal() {
+  document.getElementById("orderModal").style.display = "none";
+}
+
+
+// ---------------- SEARCH ----------------
+document.getElementById("searchInput").addEventListener("keyup", function () {
+  let value = this.value.toLowerCase();
+  let rows = document.querySelectorAll("#orderTable tr");
+
+  rows.forEach(row => {
+    let orderNo = row.children[1].textContent.toLowerCase();
+    row.style.display = orderNo.includes(value) ? "" : "none";
+  });
+});
+
+
+// ---------------- INIT ----------------
+loadOrders();
+
+</script>
+
+</body>
+</html>

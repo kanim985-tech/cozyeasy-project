@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product Management</title>
+
+<style>
+body { margin:0; font-family:Arial; background:#f4f6f9; }
+.container{ display:flex; }
+.sidebar{ width:180px; background:#333; color:white; height:100vh; padding:10px;}
+.sidebar ul{ list-style:none; padding:0;}
+.sidebar li{ padding:10px 0;}
+.sidebar a{ color:white; text-decoration:none; display:block;}
+.main{ flex:1; padding:20px;}
+.header{ display:flex; justify-content:space-between;}
+.add-btn{ background:#28a745; color:white; padding:10px; border:none;}
+table{ width:100%; background:white;}
+th,td{ padding:10px; border-bottom:1px solid #eee;}
+img{ width:40px; height:40px;}
+.modal{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); justify-content:center; align-items:center;}
+.modal-content{ background:white; padding:20px; width:350px;}
+button{ cursor:pointer; margin:2px;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+ <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>CozyEasy</h2>
+    <ul>
+  <li><a href="Dashboard.html">Dashboard</a></li>
+  <li><a href="productmanagement.html">Product</a></li>
+  <li><a href="ordermanagement.html">Order</a></li>
+  <!-- <li><a href="offermanagement.html">Offer Management</a></li> -->
+  <li><a href="contactmanagement.html">Contact</a></li>
+  <li><a href="usermanagement.html">User</a></li>
+</ul>
+  </div>
+
+<div class="main">
+
+<div class="header">
+<h2>Product Management</h2>
+<button class="add-btn" onclick="openModal()">+ Add</button>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Image</th>
+<th>Name</th>
+<th>Category</th>
+<th>Price</th>
+<th>Stock</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="productTable"></tbody>
+</table>
+
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content">
+
+<h3 id="modalTitle">Add Product</h3>
+
+<input id="name" placeholder="Name">
+<input id="price" placeholder="Price">
+<input id="image" placeholder="Image URL">
+<input id="rating" placeholder="Rating">
+<input id="stock" placeholder="Stock">
+<input id="offer" placeholder="Offer %">
+<textarea id="desc" placeholder="Description"></textarea>
+
+<select id="category"></select>
+
+<br><br>
+<button onclick="saveProduct()">Save</button>
+<button onclick="closeModal()">Cancel</button>
+
+</div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("./admin-sidebar.html");
+
+    if (!res.ok) {
+      throw new Error("File not found");
+    }
+
+    const html = await res.text();
+    document.getElementById("sidebar").innerHTML = html;
+
+  } catch (err) {
+    console.error("Sidebar error:", err);
+    document.getElementById("sidebar").innerHTML =
+      "<div style='color:red'>Sidebar failed to load</div>";
+  }
+});
+</script>
+<script>
+
+const API = "http://localhost:8000/api/products";
+
+let editId = null; // 🔥 track edit
+
+// ---------------- LOAD PRODUCTS ----------------
+async function loadProducts() {
+    let res = await fetch(API);
+    let data = await res.json();
+
+    let table = document.getElementById("productTable");
+    table.innerHTML = "";
+
+    data.forEach(p => {
+        table.innerHTML += `
+        <tr>
+            <td><img src="${p.image}"></td>
+            <td>${p.name}</td>
+            <td>${p.category}</td>
+            <td>₹${p.price}</td>
+            <td>${p.quantity}</td>
+            <td>
+                <button onclick="editProduct(${p.id})">Edit</button>
+                <button onclick="deleteProduct(${p.id})">Delete</button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+
+// ---------------- LOAD CATEGORIES ----------------
+async function loadCategories() {
+    let res = await fetch(API + "/categories");
+    let data = await res.json();
+
+    let select = document.getElementById("category");
+    select.innerHTML = "";
+
+    data.forEach(c => {
+        select.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+    });
+}
+
+
+// ---------------- OPEN MODAL ----------------
+function openModal() {
+    editId = null;
+    document.getElementById("modalTitle").innerText = "Add Product";
+    document.getElementById("modal").style.display = "flex";
+    clearForm();
+}
+
+
+// ---------------- CLOSE MODAL ----------------
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+    clearForm();
+    editId = null;
+}
+
+
+// ---------------- CLEAR FORM ----------------
+function clearForm() {
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("image").value = "";
+    document.getElementById("rating").value = "";
+    document.getElementById("stock").value = "";
+    document.getElementById("offer").value = "";
+    document.getElementById("desc").value = "";
+}
+
+
+// ---------------- SAVE (ADD / UPDATE) ----------------
+async function saveProduct() {
+
+    let product = {
+        name: document.getElementById("name").value,
+        image: document.getElementById("image").value,
+        rating: Number(document.getElementById("rating").value || 0),
+        price: Number(document.getElementById("price").value),
+        old_price: Number(document.getElementById("price").value) + 200,
+        offer: Number(document.getElementById("offer").value || 0),
+        description: document.getElementById("desc").value,
+        quantity: Number(document.getElementById("stock").value),
+        category_id: Number(document.getElementById("category").value)
+    };
+
+    if (editId) {
+        // 🔥 UPDATE
+        await fetch(`${API}/${editId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product)
+        });
+        alert("Product updated!");
+    } else {
+        // 🔥 ADD
+        await fetch(API, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product)
+        });
+        alert("Product added!");
+    }
+
+    closeModal();
+    loadProducts();
+}
+
+
+// ---------------- EDIT ----------------
+async function editProduct(id) {
+
+    let res = await fetch(`${API}/${id}`);
+    let p = await res.json();
+
+    editId = id;
+
+    document.getElementById("modalTitle").innerText = "Edit Product";
+    document.getElementById("modal").style.display = "flex";
+
+    document.getElementById("name").value = p.name;
+    document.getElementById("price").value = p.price;
+    document.getElementById("image").value = p.image;
+    document.getElementById("rating").value = p.rating;
+    document.getElementById("stock").value = p.quantity;
+    document.getElementById("offer").value = p.offer;
+    document.getElementById("desc").value = p.description;
+    document.getElementById("category").value = p.category_id;
+}
+
+
+// ---------------- DELETE ----------------
+async function deleteProduct(id) {
+    if (!confirm("Delete product?")) return;
+
+    await fetch(`${API}/${id}`, { method: "DELETE" });
+
+    loadProducts();
+}
+
+
+// ---------------- INIT ----------------
+loadProducts();
+loadCategories();
+
+</script>
+
+</body>
+</html>

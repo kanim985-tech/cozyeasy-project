@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Navbar</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.navbar{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 40px;
+    background:#b6343451;
+    color:white;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+/* LEFT LOGO */
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    color: #7b1313f0;
+    border: none;
+}
+
+/* CENTER LINKS */
+.navbar-links{
+    display:flex;
+    gap:35px;
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    
+}
+
+.navbar-links a{
+    color:white;
+    text-decoration:none;
+    font-size:18px;
+}
+.navbar-links a:hover{
+    color: brown;
+   box-shadow: rgba(209, 82, 82, 0.2) 0px 60px 40px 7px;
+}
+
+/* RIGHT ICONS */
+.icons{
+    display:flex;
+    gap:20px;
+    font-size:20px;
+}
+
+/*  */
+/* .navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+.navbar-links{
+    display: flex;
+    column-gap: 20px;
+}
+.navbar-links a{
+    text-decoration: none;
+    color: brown;
+}
+.nav-link:hover{
+    /* text-decoration: underline; */
+    /* color: brown;
+    cursor: pointer;
+} */
+
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <!-- LEFT -->
+    <div class="logo">CozyEazy</div>
+
+    <!-- CENTER -->
+    <div class="navbar-links">
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="category.html">Category</a>
+        <a href="offer.html">Offers</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="icons">
+
+        <a href="myorder.html"><i class="fa-solid fa-store"></i></a>
+        <a href="cart.html"><i class="fa-solid fa-cart-arrow-down"></i></a>
+        <a href="login.html"><i class="fa-solid fa-user"></i></a>
+    </div>
+
+</nav>
+
+</body>
+</html>

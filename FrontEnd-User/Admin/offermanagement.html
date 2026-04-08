@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offer Management</title>
+
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  /* padding: 20px; */
+}
+ .main {
+      display: flex;
+      gap: 20px;
+    }
+/* Sidebar */
+    .sidebar {
+      width: 180px;
+      background: #333;
+      color: white;
+      height: 100vh;
+      padding: 10px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      padding: 10px 0;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .sidebar li:hover {
+      background: #555;
+    }
+
+    /*  */
+    .sidebar a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  /* padding: 10px; */
+  border-radius: 6px;
+}
+
+.sidebar a:hover {
+  background: #555;
+}
+    /* main */
+
+
+.container {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+#searchInput {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #2c2c3e;
+  color: #fff;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.order {
+  color: #4a6cf7;
+  cursor: pointer;
+}
+
+/* Status Styles */
+.status {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.processing {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.delivered {
+  background: #d4edda;
+  color: #155724;
+}
+
+.cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+select {
+  padding: 5px;
+  border-radius: 5px;
+}
+    </style>
+</head>
+<body>
+
+  <div class="main">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Admin</h2>
+    <ul>
+       <ul>
+  <li><a href="Dashboard.html">Dashboard</a></li>
+  <li><a href="productmanagement.html">Product Management</a></li>
+  <li><a href="ordermanagement.html">Order Management</a></li>
+  <li><a href="offermanagement.html">Offer Management</a></li>
+  <li><a href="contactmanagement.html">Contact Management</a></li>
+  <li><a href="customerreview.html">Customer Review</a></li>
+</ul>
+  </div>
+  <!-- main -->
+    <div class="container">
+  <h2>Offer Management</h2>
+
+  <!-- Search -->
+  <input type="text" id="searchInput" placeholder="Search by Order Number..." />
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Name</th>
+        <th>Offer</th>
+        <th>Amount</th>
+        <th>Caption</th>
+    
+      </tr>
+    </thead>
+
+    <tbody id="orderTable">
+
+     
+    </tbody>
+  </table>
+</div>
+</div>
+</body>
+</html>

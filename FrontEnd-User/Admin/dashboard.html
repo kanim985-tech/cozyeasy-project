@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background: #f4f6f9;
+}
+
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #333;
+  color: white;
+  padding: 10px;
+  height: 100%;
+}
+
+.logo {
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.sidebar li:hover,
+.sidebar .active {
+  background: #555;
+}
+/*  */
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  /* padding: 10px; */
+  border-radius: 6px;
+}
+
+.sidebar a:hover {
+  background: #555;
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header button {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #a64343;
+}
+
+/* Cards */
+.cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #9358d6;
+background: radial-gradient(circle, rgba(147, 88, 214, 0.89) 0%, rgba(173, 148, 233, 0.58) 76%);
+  padding: 20px;
+  flex: 1;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Orders Table */
+.orders {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+}
+
+thead {
+  background: #f1f5f9;
+}
+
+tr:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+}
+
+/* Status */
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.pending {
+  background: #ceb551;
+  color: #000;
+}
+
+.completed {
+  background: #54b778;
+  color: white;
+}
+</style>
+
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo">CozyEasy</h2>
+  <ul>
+  <li><a href="Dashboard.html">Dashboard</a></li>
+  <li><a href="productmanagement.html">Product </a></li>
+  <li><a href="ordermanagement.html">Order </a></li>
+  <!-- <li><a href="offermanagement.html">Offer Management</a></li> -->
+  <li><a href="contactmanagement.html">Contact </a></li>
+  <li><a href="customerreview.html">User</a></li>
+</ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="header">
+      <h1>Dashboard</h1>
+      <button>Logout</button>
+    </header>
+
+    <!-- Cards -->
+    <section class="cards">
+      <div class="card">
+        <h3>Total Orders</h3>
+        <p>120</p>
+      </div>
+      <div class="card">
+        <h3>Total Sales</h3>
+        <p>24,400</p>
+      </div>
+      <div class="card">
+        <h3>Total Customers</h3>
+        <p>30</p>
+      </div>
+    </section>
+
+    <!-- Orders Table -->
+    <section class="orders">
+      <h2>Recent Orders</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Store</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody id="orderTable"></tbody>
+      </table>
+    </section>
+<!-- Charts -->
+<section style="display:flex; gap:20px; margin-top:20px;">
+
+  <div style="flex:1; background:white; padding:20px; border-radius:10px;">
+    <h3>Order Status</h3>
+    <canvas id="statusChart"></canvas>
+  </div>
+
+  <div style="flex:1; background:white; padding:20px; border-radius:10px;">
+    <h3>Sales Trend</h3>
+    <canvas id="salesChart"></canvas>
+  </div>
+
+</section>
+  </main>
+</div>
+
+<script>
+
+const API = "http://localhost:8000/api/orders";
+
+// ---------------- LOAD DASHBOARD ----------------
+async function loadDashboard() {
+
+  let res = await fetch(API + "/analytics");
+  let data = await res.json();
+
+  console.log("Analytics:", data);
+
+  // ---------------- UPDATE CARDS ----------------
+  document.querySelectorAll(".card p")[0].innerText = data.total_orders;
+  document.querySelectorAll(".card p")[1].innerText = "₹" + data.total_sales;
+  document.querySelectorAll(".card p")[2].innerText = data.total_customers; // ✅ FIX
+
+  // ---------------- RECENT ORDERS ----------------
+  let table = document.getElementById("orderTable");
+  table.innerHTML = "";
+
+  data.recent_orders.forEach(order => {
+    table.innerHTML += `
+      <tr>
+        <td>${order.order_number}</td>
+        <td>CozyEasy</td>
+        <td>
+          <span class="status ${order.status.toLowerCase()}">
+            ${order.status}
+          </span>
+        </td>
+      </tr>
+    `;
+  });
+
+  // ---------------- STATUS CHART ----------------
+  let labels = data.status_data.map(s => s.status);
+  let values = data.status_data.map(s => s.count);
+
+  new Chart(document.getElementById("statusChart"), {
+    type: "pie",
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values
+      }]
+    }
+  });
+
+  // ---------------- SALES CHART ----------------
+  let dates = data.sales_data.map(s => s.date);
+  let sales = data.sales_data.map(s => s.total);
+
+  new Chart(document.getElementById("salesChart"), {
+    type: "line",
+    data: {
+      labels: dates,
+      datasets: [{
+        label: "Sales",
+        data: sales
+      }]
+    }
+  });
+}
+
+// ---------------- INIT ----------------
+loadDashboard();
+
+</script>
+</body>
+</html>

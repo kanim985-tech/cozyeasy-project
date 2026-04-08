@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Contacts</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    /* padding: 20px; */
+}
+
+.main{
+      display: flex;
+      gap: 20px;
+}
+/* Sidebar */
+    .sidebar {
+      width: 180px;
+      border-radius: 5px;
+      background: #333;
+      color: white;
+      height: 100vh;
+      padding: 10px
+      
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      padding:  10px 0;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .sidebar li:hover {
+      background: #555;
+    }
+    /*  */
+    .sidebar a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  /* padding: 10px; */
+  border-radius: 6px;
+}
+
+.sidebar a:hover {
+  background: #555;
+}
+
+    /* main */
+
+.container {
+    flex: 1;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+/* Search bar */
+.search-box {
+    width: 90%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #0d1b3d;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 10px;
+        background: #fff;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+    }
+}
+</style>
+
+</head>
+<body>
+
+    <div class="main">
+<!-- Sidebar -->
+  <div class="sidebar">
+    <h2>CozyEasy</h2>
+    <ul>
+  <li><a href="Dashboard.html">Dashboard</a></li>
+  <li><a href="productmanagement.html">Product </a></li>
+  <li><a href="ordermanagement.html">Order </a></li>
+  <!-- <li><a href="offermanagement.html">Offer Management</a></li> -->
+  <li><a href="contactmanagement.html">Contact </a></li>
+  <li><a href="usermanagement.html  ">User</a></li>
+</ul>
+  </div>
+<!-- main -->
+
+<div class="container">
+    <h2>Contacts</h2>
+
+    <input type="text" id="searchInput" class="search-box" placeholder="Search contacts...">
+
+    <table id="contactTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td data-label="Name">esha</td>
+                <td data-label="Email">esha@gmail.com</td>
+                <td data-label="Phone">8989898989</td>
+                <td data-label="Subject">Delivery</td>
+                <td data-label="Message">How many days?</td>
+                <td data-label="Date">1/02/2026</td>
+            </tr>
+
+            <tr>
+                <td data-label="Name">shanthi</td>
+                <td data-label="Email">shanthii@gmail.com</td>
+                <td data-label="Phone">8098831318</td>
+                <td data-label="Subject">Delivery</td>
+                <td data-label="Message">How many days ??</td>
+                <td data-label="Date">3/3/2026</td>
+            </tr>
+
+            <tr>
+                <td data-label="Name">Vinoth</td>
+                <td data-label="Email">vinoth@mail.com</td>
+                <td data-label="Phone">7904058830</td>
+                <td data-label="Subject">Delivery</td>
+                <td data-label="Message">How many days?</td>
+                <td data-label="Date">10/3/2026</td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</div>
+</div>
+
+<script>
+
+const API = "http://localhost:8000/api/contacts";
+
+// ---------------- LOAD CONTACTS ----------------
+async function loadContacts() {
+    let res = await fetch(API);
+    let data = await res.json();
+
+    let table = document.querySelector("#contactTable tbody");
+    table.innerHTML = "";
+
+    data.forEach(c => {
+        table.innerHTML += `
+        <tr>
+            <td>${c.fullname}</td>
+            <td>${c.email}</td>
+            <td>-</td>
+            <td>${c.subject}</td>
+            <td>${c.message}</td>
+            <td>${c.created_at}</td>
+            <td>
+                <button onclick="deleteContact(${c.id})">Delete</button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+
+// ---------------- DELETE ----------------
+async function deleteContact(id) {
+    if (!confirm("Delete this contact?")) return;
+
+    await fetch(`${API}/${id}`, {
+        method: "DELETE"
+    });
+
+    loadContacts();
+}
+
+
+// ---------------- SEARCH ----------------
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#contactTable tbody tr");
+
+    rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+    });
+});
+
+
+// ---------------- INIT ----------------
+loadContacts();
+
+</script>
+</body>
+</html>

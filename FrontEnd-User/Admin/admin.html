@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel - CozyEasy</title>
+  <style>
+    body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.container {
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background: #333;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  background: #555;
+}
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Admin</h2>
+    <ul>
+      <li onclick="showSection('dashboard')">Dashboard</li>
+      <li onclick="showSection('products')">Products</li>
+      <li onclick="showSection('orders')">Orders</li>
+      <li onclick="showSection('reviews')">Reviews</li>
+    </ul>
+  </div>
+
+</div>
+<script>
+    // SHOW SELECTED SECTION
+function showSection(sectionId) {
+
+  // Hide all sections
+  let sections = document.querySelectorAll(".section");
+  sections.forEach(sec => {
+    sec.style.display = "none";
+  });
+
+  // Show selected section
+  let selected = document.getElementById(sectionId);
+  if (selected) {
+    selected.style.display = "block";
+  }
+}
+
+// OPTIONAL: Load default section on page load
+window.onload = function () {
+  showSection("dashboard");
+};
+</script>
+</body>
+</html>

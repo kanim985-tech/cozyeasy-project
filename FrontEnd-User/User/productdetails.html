@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details</title>
+
+<style>
+/* ✅ SAME CSS (UNCHANGED) */
+body {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    background: #f8f8f8;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.product {
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.product img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+}
+
+.product-details {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.star-rating {
+  direction: rtl;
+  display: inline-flex;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 25px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.star-rating input:checked ~ label {
+  color: gold;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: gold;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #632727;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #777;
+    margin-left: 10px;
+}
+
+.offer {
+    background: #dfc38db3;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 5px;
+    color: #368f46;
+}
+
+.qty-box {
+    margin: 15px 0;
+}
+
+.qty-box button {
+    padding: 5px 10px;
+    background-color: #852626;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.qty-box span {
+    margin: 0 10px;
+}
+
+.actions button {
+    padding: 12px 20px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.add-cart {
+    background: #533b18;
+    color: #fff;
+}
+
+.buy-now {
+    background: #b37716;
+    color: #fff;
+}
+
+.section {
+    margin-top: 20px;
+}
+.section li {
+    color: rgba(66, 33, 87, 0.804);
+}
+
+ul {
+    padding-left: 20px;
+    list-style-type:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="productDetails">
+
+    <div class="product">
+        
+        <!-- Image -->
+        <div>
+            <img src="" id="mainImg">
+        </div>
+
+        <!-- Details -->
+        <div class="product-details">
+            <h1></h1>
+
+           <div class="rating">
+                <span>User Rating:</span>
+                <div class="star-rating">
+                    <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+                    <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+                    <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+                    <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+                    <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+                </div>
+           </div>
+
+            <div>
+                <span class="price"></span>
+                <span class="old-price"></span>
+            </div>
+
+            <div class="offer"></div>
+
+            <!-- Description -->
+            <div class="section">
+                <h3>Description</h3>
+                <ul id="desc"></ul>
+            </div>
+
+            <div class="qty-box">
+                Quantity:
+                <button onclick="changeQty(-1)">-</button>
+                <span id="qty">1</span>
+                <button onclick="changeQty(1)">+</button>
+            </div>
+
+            <div class="actions">
+                <button class="add-cart" onclick="addToCart()">Add to Cart</button>
+                <button class="buy-now" onclick="buyNow()">Buy Now</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+let qty = 1;
+
+function changeQty(change) {
+    qty += change;
+    if (qty < 1) qty = 1;
+    document.getElementById("qty").innerText = qty;
+}
+
+function addToCart() {
+    alert("Added " + qty + " item(s) to cart 🛒");
+}
+
+function buyNow() {
+    alert("Proceeding to checkout");
+}
+</script>
+
+<!-- ⭐ FIXED SCRIPT -->
+<script>
+async function loadProductDetails() {
+    let params = new URLSearchParams(window.location.search);
+    let id = params.get("id");
+
+    try {
+        let res = await fetch(`http://localhost:8000/api/products/${id}`);
+        let product = await res.json();
+
+        // ✅ UPDATE EXISTING UI (NO innerHTML replace)
+        document.querySelector("h1").innerText = product.name;
+        document.getElementById("mainImg").src = product.image;
+
+        document.querySelector(".price").innerText = "₹" + product.price;
+
+        if (product.old_price) {
+            document.querySelector(".old-price").innerText = "₹" + product.old_price;
+        }
+
+        if (product.offer) {
+            document.querySelector(".offer").innerText = "🎉 " + product.offer + "% OFF";
+        }
+
+        // description
+        let desc = document.getElementById("desc");
+        desc.innerHTML = `<li>${product.description}</li>`;
+
+    } catch (err) {
+        console.error("Error loading product:", err);
+    }
+}
+
+loadProductDetails();
+</script>
+
+</body>
+</html>

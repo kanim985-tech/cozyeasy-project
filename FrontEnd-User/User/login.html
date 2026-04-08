@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <script src="script.js"></script>
+
+    <!-- css -->
+     <style>
+        body{
+            background-color: rgb(176, 157, 128);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 20px;
+        }
+        .login{
+            justify-content: center;
+            text-align: center;
+            width: 350px;
+            background-color: white;
+            padding: 28px;
+            border-radius: 20px;
+        }
+        .cozy{
+            width: 200px;
+            height: 80px;
+            background-color: rgb(139, 88, 88);
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin:0 auto 20px;
+        }
+        .input-label{
+            display: inline-block;
+        }
+        h2{
+            font-size: 26px;
+            color: #1f2937;
+            margin-bottom: 2px; 
+        }
+        .sub-text{
+            color: #ad5312;  
+                     
+        }
+        .sub-text span{
+            color: #6b7280;
+        }
+        form{
+            text-align: left;
+        }
+        .input-box{
+            display: flex;
+            align-items: center;
+            border:  1px solid #d1d5db;
+            border-radius: 10px;
+            /* padding: 12px; */
+            margin-bottom: 20px;
+        }
+      .input-box label{
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #374151;
+
+      }
+        .input-box input{
+            border: none;
+            flex:1;
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 10px;
+            /* width: 100%; */
+        }
+        .submit{
+            width: 100%;
+            padding: 10px;
+            background-color: #7f502e;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+        }
+     </style>
+</head>
+<body>
+    
+
+    <section class="login">
+    <div class="cozy">
+        CozyEasy
+    </div>
+
+    <h2>Sign in to your account</h2>
+    <p class="sub-text"><span>or</span> <a href="register.html">Create a new account</a></p>
+<form onsubmit="loginUser(event)">
+    
+    <label>Email Address :</label>
+    <div class="input-box">
+        <input type="email" id="email" placeholder="Enter your Email" required>
+    </div>
+    
+    <label>Password :</label>
+    <div class="input-box">
+        <input type="password" id="password" placeholder="Password" required>
+    </div>
+
+    <button class="submit" type="submit">Sign in</button>
+</form>  
+
+</body>
+</html>
+
+<script>
+async function loginUser(event) {
+    event.preventDefault(); // 🚨 stop page reload
+
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    try {
+        let res = await fetch("http://localhost:8000/api/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        let data = await res.json();
+
+        if (res.ok) {
+            // ✅ store user
+            localStorage.setItem("user", JSON.stringify(data));
+
+            alert("Login successful!");
+
+            // 🔥 role-based redirect
+            if (data.role === "admin") {
+                window.location.href = "../Admin/dashboard.html";
+            } else {
+                window.location.href = "./home.html";
+            }
+        } else {
+            alert(data.detail);
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert("Login failed");
+    }
+}
+</script>

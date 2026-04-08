@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Orders</title>
+<script src="script.js"></script>
+
+<style>
+body {
+    font-family: Georgia, serif;
+    background: #b58c8c;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.order-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.order-box p {
+    margin: 5px 0;
+}
+
+.items {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #444;
+}
+</style>
+</head>
+
+<body>
+     <div id="header" style="width: auto;"></div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>My Orders</h2>
+        <div id="orders"></div>
+    </div>
+
+</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem("user"));
+
+async function loadOrders() {
+    if (!user) {
+        alert("Please login first");
+        window.location.href = "login.html";
+        return;
+    }
+
+    let res = await fetch(`http://localhost:8000/api/orders/my-orders/${user.user_id}`);
+    let orders = await res.json();
+
+    let container = document.getElementById("orders");
+    container.innerHTML = "";
+
+    if (orders.length === 0) {
+        container.innerHTML = "<p>No orders yet.</p>";
+        return;
+    }
+
+    orders.forEach(order => {
+        container.innerHTML += `
+            <div class="order-box">
+                <p><strong>Order No:</strong> ${order.order_number}</p>
+                <p><strong>Total:</strong> ₹${order.total_amount}</p>
+                <p><strong>Status:</strong> ${order.status}</p>
+                <p><strong>Date:</strong> ${order.created_at}</p>
+
+                <div class="items">
+                    <strong>Delivery:</strong><br>
+                    ${order.customer_name}<br>
+                    ${order.address}, ${order.city}<br>
+                    ${order.phone}
+                </div>
+            </div>
+        `;
+    });
+}
+
+loadOrders();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Management</title>
+
+<style>
+body { font-family: Arial; background:#f4f6f9; margin:0; }
+.main { display:flex; gap:20px; }
+
+/* Sidebar */
+.sidebar {
+  width:180px;
+  background:#333;
+  color:white;
+  height:100vh;
+  padding:10px;
+}
+.sidebar a {
+  display:block;
+  color:white;
+  text-decoration:none;
+  padding:10px 0;
+}
+.sidebar a:hover { background:#555; }
+
+/* Main */
+.container {
+  flex:1;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+}
+
+input {
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+}
+
+/* Table */
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+thead {
+  background:#0d1b3d;
+  color:white;
+}
+th, td {
+  padding:10px;
+}
+tr { border-bottom:1px solid #ddd; }
+
+button {
+  padding:5px 10px;
+  background:red;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="main">
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>CozyEasy</h2>
+  <a href="Dashboard.html">Dashboard</a>
+  <a href="productmanagement.html">Product</a>
+  <a href="ordermanagement.html">Order</a>
+  <a href="contactmanagement.html">Contact</a>
+  <a href="usermanagement.html">User</a>
+</div>
+
+<!-- Main -->
+<div class="container">
+
+<h2>User Management</h2>
+
+<input id="searchInput" placeholder="Search users...">
+
+<table>
+<thead>
+<tr>
+<th>User ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Role</th>
+<th>Date</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="userTable"></tbody>
+</table>
+
+</div>
+</div>
+
+<script>
+
+const API = "http://localhost:8000/api/users";
+
+// ---------------- LOAD USERS ----------------
+async function loadUsers() {
+  let res = await fetch(API + "/admin");
+  let users = await res.json();
+
+  let table = document.getElementById("userTable");
+  table.innerHTML = "";
+
+  users.forEach(u => {
+    table.innerHTML += `
+      <tr>
+        <td>${u.user_id}</td>
+        <td>${u.username}</td>
+        <td>${u.email}</td>
+        <td>${u.role}</td>
+        <td>${u.created_at}</td>
+        <td>
+          <button onclick="deleteUser('${u.user_id}')">Delete</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+
+// ---------------- DELETE ----------------
+async function deleteUser(id) {
+  if (!confirm("Delete user?")) return;
+
+  await fetch(`${API}/${id}`, {
+    method: "DELETE"
+  });
+
+  loadUsers();
+}
+
+
+// ---------------- SEARCH ----------------
+document.getElementById("searchInput").addEventListener("keyup", function () {
+  let val = this.value.toLowerCase();
+  let rows = document.querySelectorAll("#userTable tr");
+
+  rows.forEach(r => {
+    r.style.display = r.innerText.toLowerCase().includes(val) ? "" : "none";
+  });
+});
+
+
+// ---------------- INIT ----------------
+loadUsers();
+
+</script>
+
+</body>
+</html>

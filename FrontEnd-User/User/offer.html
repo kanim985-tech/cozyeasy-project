@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offers</title>
+     <script src="script.js"></script>
+    <!-------------------------- CSS------------------------->
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+}
+body{
+font-family: "Georgia", serif;
+background:#f6f3f1;
+color:#181717;
+}
+.hero{
+display:flex;
+/* justify-content:space-between; */
+align-items:center;
+padding:50px 50px;
+background:#efe6e1;
+height: auto;
+}
+
+.hero-text{
+max-width:500px;
+}
+.badge{
+background:#e0ccac;
+padding:6px 14px;
+font-size:12px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:20px;
+letter-spacing: 1px;
+}
+.hero h1{
+font-family:'Playfair Display',serif;
+font-size:48px;
+}
+
+.hero h2{
+color:#c8a164;
+font-family:'Playfair Display',serif;
+margin-bottom:15px;
+}
+
+.hero p{
+margin-bottom:25px;
+line-height:1.6;
+}
+.buttons button{
+padding:12px 22px;
+border:none;
+margin-right:10px;
+cursor:pointer;
+}
+.primary{
+background:#6d4a08;
+color:white;
+border-radius:6px;
+}
+
+.secondary{
+background:white;
+border:1px solid #ccc;
+border-radius:6px;
+}
+.hero-image{
+position:relative;
+margin-left: 12rem;
+}
+.main-img{
+width:400px;
+height: 400px;
+border-radius:10px;
+box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+.discount{
+position:absolute;
+top:20px;
+right:20px;
+background:#b4a4a4;
+color:rgb(30, 28, 28);
+padding:10px 14px;
+border-radius:50%;
+font-size:12px;
+}
+.small-card{
+position:absolute;
+bottom:-50px;
+left:-80px;
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.small-card img{
+width:150px;
+margin-bottom:10px;
+}
+.small-card p{
+line-height:0;
+margin-bottom: 15px;
+}
+.small-card span{
+    color:#c8a164;
+    font-size:smaller;
+}
+/* ----------------------------section2-------------------------- */
+.seasonal{
+padding:50px 5%;
+text-align:center;
+}
+.seasonal h2{
+font-family:'Playfair Display',serif;
+margin-bottom:10px;
+}
+.seasonal-cards{
+display:flex;
+gap:30px;
+margin-top:40px;
+}
+.card{
+background:white;
+border-radius:12px;
+padding:20px;
+display:flex;
+gap:25px;
+flex:1;
+align-items:center;
+box-shadow:0 10px 15px 5px rgba(186, 59, 59, 0.05);
+}
+.card:hover{
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    transform: translateX(-5px);
+}
+.card h3{
+    margin-bottom: 5px;
+}
+.card p{
+    line-height: -2px;
+    margin-bottom: 10px;
+    color: #0f6918;
+}
+
+.card img{
+width:120px;
+border-radius:10px;
+}
+
+.card a{
+color:#c9a24d;
+/* text-decoration:none; */
+font-weight:500;
+/* background-color: rgb(105, 76, 15); */
+padding: 5px;
+border-radius: 50px;
+}
+
+.pink{
+background:#f3d6cc;
+}
+.milestones{
+padding:80px 10%;
+text-align:center;
+}
+
+.milestone-cards{
+display:flex;
+gap:30px;
+margin-top:40px;
+}
+
+.milestone{
+position:relative;
+flex:1;
+}
+
+.milestone img{
+width:100%;
+ height: 500px;
+border-radius:12px;
+}
+.anniversary{
+    object-fit: cover;
+}
+
+.overlay{
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,0.4);
+color:white;
+padding:30px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+border-radius:12px;
+}
+
+.overlay button{
+margin-top:15px;
+padding:10px 20px;
+border:none;
+background:white;
+border-radius:20px;
+cursor:pointer;
+}
+.last{
+color:rgb(76, 47, 47);
+text-align:center;
+padding:60px 20px;
+}
+.last h3{
+font-family:'Playfair Display',serif;
+margin-bottom:10px;
+}
+
+
+
+    </style>
+</head>
+<body>
+     <div id="header" style="width: auto;"></div>
+
+<!----------------------section 1---------------------------->
+    <section class="hero">
+        <div class="hero-text" >
+            <span class="badge">LIMITED TIME COMBO</span>
+
+            <h1>Perfect Pairings</h1>
+
+            <h2>Flowers & Gourmet Cakes</h2>
+            <p>
+            Elevate your celebration with our curated gift sets.
+            Get a 20% discount when you pair a premium floral
+            bouquet with any signature artisan cake.
+            </p>
+            <div class="buttons">
+                <button class="primary">Shop Combo Now</button>
+                <button class="secondary">View All Offers</button>
+            </div>
+        </div>
+        <div class="hero-image">
+
+            <img class="main-img" src="https://i.pinimg.com/736x/f5/0a/5d/f50a5da743aec8d3d38df1858cecc29c.jpg">
+
+            <div class="discount">20% OFF</div>
+
+            <div class="small-card">
+                <img src="https://i.pinimg.com/736x/35/be/d4/35bed473ac2c0a8bea5c8799691af53b.jpg">
+                <p>Luxury Hampers</p>
+                <span>Starting from ₹ 699</span>
+            </div>
+
+        </div>
+    </section>
+<!---------------------------section 2--------------------------------->
+
+        <section class="seasonal">
+
+            <h2>Seasonal Celebrations</h2>
+            <p>Hand-picked treasures for the season's most cherished moments.</p>
+
+            <div class="seasonal-cards">
+
+            <div class="card">
+                    <img src="https://i.pinimg.com/1200x/d7/0f/7c/d70f7cc66d3b0eed5aee66ca0f882546.jpg">
+                <div>
+                    <h3>Ramadan Kareem</h3>
+                    <p>Dates, chocolates and prayer beads in luxury packaging.</p>
+                    <a href="#">Claim Offer</a>
+                </div>
+            </div>
+
+            <div class="card pink">
+                <img src="https://i.pinimg.com/1200x/05/be/5a/05be5a2b3189c3a36451b4c9a4a6c0ed.jpg" alt="Valentins">
+                <div>
+                    <h3>Valentins day</h3>
+                    <p>100 Red Roses + Belgian chocolates with next-day delivery.</p>
+                    <a href="#">Shop Early</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://i.pinimg.com/1200x/b4/e8/83/b4e88372790f8162d21e906c8ad0a01e.jpg">
+            <div>
+                <h3>Mother's Day</h3>
+            <p>Celebrate mom with curated gift boxes.</p>
+            <a href="#">Order Now</a>
+            </div>
+            </div>
+
+            </div>
+    </section>
+<!---------------------------section 3----------------------------->
+    <section class="milestones">
+
+        <h2>Life's Milestones</h2>
+        <p>Make every personal celebration unforgettable with our tailored birthday and anniversary deals.</p>
+
+        <div class="milestone-cards">
+
+            <div class="milestone">
+                <img src="https://i.pinimg.com/1200x/ac/1c/21/ac1c21d9b6d4c3c240de7946c3dab6ba.jpg">
+                    <div class="overlay">
+                        <h3>Birthday Bundles</h3>
+                        <p>Free customized message card & candle with every cake order.</p>
+                        <button>Book Birthday Gift</button>
+                    </div>
+            </div>
+
+            <div class="milestone">
+                <img class="anniversary" src="https://i.pinimg.com/736x/8a/bd/14/8abd1478ca03de54294df614ddca370a.jpg">
+                    <div class="overlay">
+                        <h3>Forever Yours</h3>
+                        <p>Save 15% on premium everlasting flower sets.</p>
+                        <button>Claim Anniversary Deal</button>
+                    </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="last">
+        <!-- <img src="https://i.pinimg.com/736x/e2/29/9e/e2299ecad2b53f17fb9d5acc607736db.jpg" alt=""> -->
+        <h3>Never miss a special moment.</h3>
+        <p>Sign up for exclusive early access to holiday deals and rewards.</p>
+
+    </section>
+
+    <!-------------------- footer---------------- -->
+
+    
+
+        
+    
+</body>
+</html>

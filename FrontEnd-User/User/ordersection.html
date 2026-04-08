@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orders</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.order-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.pending { background: orange; }
+.delivered { background: green; }
+.cancelled { background: red; }
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Current Order -->
+    <div class="card">
+        <h2>Current Order</h2>
+        <div id="currentOrder">
+            <p>No active order</p>
+        </div>
+        <button onclick="placeOrder()">Place Dummy Order</button>
+    </div>
+
+    <!-- Order History -->
+    <div class="card">
+        <h2>Order History</h2>
+        <div id="orderHistory" class="empty">
+            No past orders
+        </div>
+    </div>
+
+</div>
+
+<script>
+let orderHistory = [];
+
+function placeOrder() {
+    let order = {
+        id: Date.now(),
+        items: ["Product A", "Product B"],
+        total: Math.floor(Math.random() * 1000) + 200,
+        status: "Pending",
+        date: new Date().toLocaleString()
+    };
+
+    updateCurrentOrder(order);
+
+    // simulate delivery after 3 sec
+    setTimeout(() => {
+        order.status = "Delivered";
+        addToHistory(order);
+        clearCurrentOrder();
+    }, 3000);
+}
+
+function updateCurrentOrder(order) {
+    document.getElementById("currentOrder").innerHTML = `
+        <div class="order-item">
+            <div class="order-header">
+                <strong>Order #${order.id}</strong>
+                <span class="status pending">${order.status}</span>
+            </div>
+            <p>Items: ${order.items.join(", ")}</p>
+            <p>Total: ₹${order.total}</p>
+        </div>
+    `;
+}
+
+function clearCurrentOrder() {
+    document.getElementById("currentOrder").innerHTML = "<p>No active order</p>";
+}
+
+function addToHistory(order) {
+    orderHistory.unshift(order);
+    renderHistory();
+}
+
+function renderHistory() {
+    let container = document.getElementById("orderHistory");
+
+    if (orderHistory.length === 0) {
+        container.innerHTML = "No past orders";
+        container.classList.add("empty");
+        return;
+    }
+
+    container.classList.remove("empty");
+
+    container.innerHTML = orderHistory.map(order => `
+        <div class="order-item">
+            <div class="order-header">
+                <strong>Order #${order.id}</strong>
+                <span class="status delivered">${order.status}</span>
+            </div>
+            <p>Items: ${order.items.join(", ")}</p>
+            <p>Total: ₹${order.total}</p>
+            <small>${order.date}</small>
+        </div>
+    `).join("");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart Section</title>
+<script src="script.js"></script>
+
+<style>
+body {
+    font-family: Georgia, serif;
+    background: #b58c8c;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.qty-control button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #bc7440;
+    border: none;
+    border-radius: 5px;
+}
+
+.qty-control span {
+    margin: 0 10px;
+}
+
+.total {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+}
+
+button.continue {
+    width: 100%;
+    padding: 15px;
+    background: #691c1cea;
+    color: white;
+    border: none;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+     <div id="header" style="width: auto;"></div>
+
+
+<div class="container">
+
+<div class="card">
+    <h2>Cart Items</h2>
+    <div id="cart-items"></div>
+    <div class="total" id="total">Total: ₹0</div>
+</div>
+
+<button class="continue" onclick="goToPayment()">Continue to Payment</button>
+
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function loadCart() {
+    let container = document.getElementById("cart-items");
+    container.innerHTML = "";
+
+    if (cart.length === 0) {
+        container.innerHTML = "<p>Your cart is empty</p>";
+        return;
+    }
+
+    cart.forEach((item, index) => {
+        container.innerHTML += `
+        <div class="cart-item">
+            <div>
+                <strong>${item.name}</strong><br>₹${item.price}
+            </div>
+            <div class="qty-control">
+                <button onclick="changeQty(${index}, -1)">-</button>
+                <span>${item.qty}</span>
+                <button onclick="changeQty(${index}, 1)">+</button>
+            </div>
+        </div>
+        `;
+    });
+
+    updateTotal();
+}
+
+function changeQty(index, change) {
+    cart[index].qty += change;
+
+    if (cart[index].qty < 1) cart[index].qty = 1;
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+}
+
+function updateTotal() {
+    let total = 0;
+    cart.forEach(item => total += item.price * item.qty);
+    document.getElementById("total").innerText = "Total: ₹" + total;
+}
+
+function goToPayment() {
+    if (cart.length === 0) {
+        alert("Cart is empty!");
+        return;
+    }
+
+    localStorage.setItem("checkout", JSON.stringify(cart));
+    window.location.href = "payment.html";
+}
+
+loadCart();
+</script>
+
+</body>
+</html>
