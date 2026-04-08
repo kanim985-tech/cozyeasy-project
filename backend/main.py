@@ -20,4 +20,6 @@ app.include_router(users.router)
 app.include_router(orders.router)
 app.include_router(specialoccation.router)
 
-
+@app.get("/")
+def home():
+    return {"message": "Backend Running 🚀"}
